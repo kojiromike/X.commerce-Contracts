@@ -1,7 +1,7 @@
 @namespace("com.x.shipping.v0")
 
 /**
-	The shipping protocol defines the schema for all messages 
+	The shipping protocol defines the schema for all messages
 	that are part of the shipping domain.
 */
 protocol Shipping {
@@ -9,66 +9,66 @@ protocol Shipping {
 	import idl "Name.avdl";
 	import idl "Address.avdl";
 	import idl "Contact.avdl";
-	
+
 	enum DimensionUnitType {
-	    Inches,
-   	 	Centimeters
+		Inches,
+		Centimeters
 	}
-	
+
 	enum WeightUnitType {
-	    Pounds,
-    	Kilograms
-    }
+		Pounds,
+		Kilograms
+	}
 
 	enum PackagingMethodType {
-    	Together,
-    	Separately
+		Together,
+		Separately
 	}
-	
+
 	enum SignatureOptionType {
-    	SignatureRequired,
-    	NoSignatureRequired,
-    	Direct,
-    	Indirect
+		SignatureRequired,
+		NoSignatureRequired,
+		Direct,
+		Indirect
 	}
-	
+
 	enum PackageType {
-    	Box,
-    	Envelope,
-    	Tube,
-    	Other
-    }
+		Box,
+		Envelope,
+		Tube,
+		Other
+	}
 
 	enum PackageSizeType {
-    	Regular,
-    	Large,
-    	Oversize
+		Regular,
+		Large,
+		Oversize
 	}
-	
+
 	enum HandoffModeType {
-	    Pickup,
-   	 	DropOff
+		Pickup,
+		DropOff
 	}
-	
+
 	enum ServiceClassType {
-	    NextDayAir,
-   		SecondaryDayAir,
-    	ThirdDay,
-    	StandardAir,
-    	Ground
-    }
-    
-    enum PrinterType {
-    	Thermal,
-    	InkJet,
-    	Laser
-    }
+		NextDayAir,
+		SecondaryDayAir,
+		ThirdDay,
+		StandardAir,
+		Ground
+	}
+
+	enum PrinterType {
+		Thermal,
+		InkJet,
+		Laser
+	}
 
 	enum LabelImageType {
 		EcondedString,
 		Url
 	}
-	
+
 	record Package {
 		string description;
 		double weight;
@@ -91,7 +91,7 @@ protocol Shipping {
 		string phoneExtension;
 		string emailAddress;
 	}
-	
+
 	record CustomsItem {
 		string originCountry;
 		double weightMajor;
@@ -102,7 +102,7 @@ protocol Shipping {
 		int quantity;
 		string description;
 	}
-	
+
 	record CustomsForm {
 		string licenseNumber;
 		string itemDetail;
@@ -113,34 +113,34 @@ protocol Shipping {
 		string eelpfc;
 		array<CustomsItem> items;
 	}
-	
+
 	record ShippingService {
 		string name;
 		string code;
 		ServiceClassType serviceClass;
 		double maxPackageWeight;
 	}
-	
+
 	record ShippingServices {
 		array<ShippingService> services;
 	}
-	
+
 	record SpecialService {
 		string name;
 		string description;
 		com.x.ocl.CurrencyAmount fee;
 	}
-	
+
 	record SpecialServices {
 		array<SpecialService> services;
 	}
-	
+
 	record CarrierHandoffMode {
 		string Code;
 		string Description;
 		HandoffModeType handoffMode;
 	}
-	
+
 	record Carrier {
 		string name;
 		string code;
@@ -161,9 +161,9 @@ protocol Shipping {
 		HandoffModeType carrierHandoffMode;
 		ShippingServices shippingServices;
 		array<SpecialService> specialServices;
-		string carrierCode;		
+		string carrierCode;
 	}
-	
+
 	record ShippingLabelParameters {
 		Shipment shipment;
 		long shipDate;
@@ -174,7 +174,7 @@ protocol Shipping {
 		boolean receipt;
 		CustomsForm customs;
 	}
-		
+
 	record TrackingNumber {
 		string trackingNumber;
 	}
@@ -186,11 +186,8 @@ protocol Shipping {
 		string imageUrl;
 		com.x.ocl.CurrencyAmount cost;
 	}
-	
+
 	record ShippingLabels {
 		array<ShippingLabel> labels;
-	}	
+	}
 }
-
-
-
