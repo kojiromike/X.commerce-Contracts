@@ -65,7 +65,7 @@ protocol Shipping {
 	}
 
 	enum LabelImageType {
-		EcondedString,
+		EncodedString,
 		Url
 	}
 
