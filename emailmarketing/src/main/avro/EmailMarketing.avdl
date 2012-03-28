@@ -306,7 +306,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/contact/created")
-	@version("0.0.3")
+	@version("0.0.4")
 	@event("true")
 	record ContactCreated {
 		array<com.x.ocl.Email> listOfContacts;
@@ -345,7 +345,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/contact/updated")
-	@version("0.0.3")
+	@version("0.0.4")
 	@event("true")
 	record ContactUpdated {
 		array<com.x.ocl.Email> listOfContacts;
@@ -365,7 +365,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/contact/deleted")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ContactDeleted {
 		array<string> listOfContactIds;
@@ -387,7 +387,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/contact/subscribed")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ContactSubscribed {
 		string contactId;
@@ -403,7 +403,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/contact/unsubscribed")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ContactUnsubscribed {
 		string contactId;
@@ -418,7 +418,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/contact/statistic/getSucceeded")
-	@version("0.0.1")
+	@version("0.0.2")
 	record GetContactStatisticSucceeded {
 		ContactStatistic statistic;
 	}
@@ -431,7 +431,7 @@ protocol EmailMarketing {
 	}
 
 	@topic("/emailMarketing/list/create")
-	@version("0.0.2")
+	@version("0.0.3")
 	record CreateList {
 		List list;
 		
@@ -443,14 +443,14 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/list/created")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ListCreated {
 		List list;
 	}
 	
 	@topic("/emailMarketing/list/createFailed")
-	@version("0.0.1")
+	@version("0.0.2")
 	record CreateListFailed {
 		List list;
 		array<com.x.ocl.Error> errors;
@@ -463,7 +463,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/list/searchSucceeded")
-	@version("0.0.1")
+	@version("0.0.2")
 	record SearchListSucceeded {
 		ListSearchFilter filter;
 		
@@ -479,20 +479,20 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/list/update")
-	@version("0.0.1")
+	@version("0.0.2")
 	record UpdateList {
 		List list;
 	}
 	
 	@topic("/emailMarketing/list/updated")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ListUpdated {
 		List list;
 	}
 	
 	@topic("/emailMarketing/list/updateFailed")
-	@version("0.0.1")
+	@version("0.0.2")
 	record UpdateListFailed {
 		List list;
 		array<com.x.ocl.Error> errors;
@@ -507,7 +507,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/list/deleted")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ListDeleted {
 		string listId;
@@ -530,7 +530,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/list/subscribed")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ListSubscribed {
 		array<string> contactIds;
@@ -553,7 +553,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/list/unsubscribed")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record ListUnsubscribed {
 		array<string> contactIds;
@@ -575,7 +575,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/message/created")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record MessageCreated {
 		Message message;
@@ -615,7 +615,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/message/updated")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record MessageUpdated {
 		Message message;
@@ -635,7 +635,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/message/deleted")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record MessageDeleted {
 		string messageId;
@@ -655,7 +655,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/created")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignCreated {
 		com.x.ocl.Campaign campaign;
@@ -695,8 +695,8 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/updated")
-	@version("0.0.1")
-	@event("0.0.1")
+	@version("0.0.2")
+	@event("true")
 	record CampaignUpdated {
 		com.x.ocl.Campaign campaign;
 	}
@@ -715,7 +715,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/deleted")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignDeleted {
 		string campaignId;
@@ -738,7 +738,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/list/added")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignListAdded {
 		string campaignId;
@@ -763,7 +763,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/scheduled")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignScheduled {
 		string campaignId;
@@ -785,7 +785,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/unscheduled")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignUnscheduled {
 		string campaignId;
@@ -805,7 +805,7 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/statistic/getSucceeded")
-	@version("0.0.1")
+	@version("0.0.2")
 	record GetCampaignStatisticSucceeded {
 		string campaignId;
 		CampaignStatistic statistic;
@@ -819,14 +819,14 @@ protocol EmailMarketing {
 	}
 	
 	@topic("/emailMarketing/campaign/started")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignStarted {
 		string campaignId;
 	}
 	
 	@topic("/emailMarketing/campaign/completed")
-	@version("0.0.1")
+	@version("0.0.2")
 	@event("true")
 	record CampaignCompleted {
 		string campaignId;

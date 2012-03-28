@@ -1,0 +1,14 @@
+	
+package com.x.xocl.common.address.v1{
+	record Address {
+		string street1
+		string? street2
+		string? street3 
+		string? street4
+		string city
+		string? county
+		string? stateOrProvince
+		string postalCode
+		string country
+	}
+}

@@ -73,7 +73,7 @@ protocol GeneralSystemMessages {
 	// Note to app developers, do not respond to a /message/failed message
 	// with another /message/failed message.
 	@topic("/message/failed")
-	@version("1.0.1")
+	@version("1.0.2")
 	@namespace("com.x.error")
 	record MessageDeliveryFailed {
 		string topicName;            // topic of the problem message
@@ -81,7 +81,7 @@ protocol GeneralSystemMessages {
 		union{null,int} httpStatus;  // Http Status if available or null if another type of error
 		string errorCause;           // Http Status line message or cause of delivery failure
 		string messageGuid;          // GUID, as above
-		bytes message;               // Original message body
+		union{null,bytes} message = null; // Original message body
 	}
 
 	// Capability configuration message.  The payload and semantics of this message are

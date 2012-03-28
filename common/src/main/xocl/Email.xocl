@@ -1,0 +1,6 @@
+	
+package com.x.xocl.common.email.v1{	
+	record Email{
+		string emailAddress;   		
+	}
+}

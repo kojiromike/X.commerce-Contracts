@@ -117,14 +117,14 @@ protocol ProductInformationManagementCapability {
         // ID of the product type 
         union {null, string} productTypeId = null;
         // descriptive name
-        union {null, LocalizedString} name = null;
+        union {null, array<LocalizedString>} name = null;
         // short description
-        union {null, LocalizedString} shortDescription = null;
+        union {null, array<LocalizedString>} shortDescription = null;
         // full description
-        union {null, LocalizedString} description = null;
+        union {null, array<LocalizedString>} description = null;
         union {null, string} GTIN = null;
-        union {null, LocalizedString} brand = null;
-        union {null, LocalizedString} manufacturer = null;
+        union {null, array<LocalizedString>} brand = null;
+        union {null, array<LocalizedString>} manufacturer = null;
         union {null, string} MPN = null;
         // Manufacturer suggested retail price
         union {null, com.x.ocl.CurrencyAmount} MSRP = null;

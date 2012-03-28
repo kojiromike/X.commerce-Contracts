@@ -15,9 +15,9 @@ protocol Common {
 
 	record Contact {
 		com.x.ocl.Name fullName;	   
-		com.x.ocl.Address address;
+	    union {null, array<com.x.ocl.Address>} addresses = null;
 		union {null, com.x.ocl.Phone} primaryPhone = null;
-	    union {null, array<com.x.ocl.Phone>} additionalPhone = null;
+	    union {null, array<com.x.ocl.Phone>} additionalPhones = null;
 		union {null, com.x.ocl.Email} emailAddress = null;   		
 		union {null, com.x.ocl.EmbeddedObject} extension = null;
 		union {null, com.x.ocl.ContactAddressType} addressType = null;

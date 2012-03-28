@@ -298,6 +298,7 @@ protocol Marketplace {
 	}
 	
 	@topic("/marketplace/order/notifyBacklog/check")
+	@version("1.0.0")
 	record CheckOrderNotifyBacklog {
 		union{null,string} siteCode = null;
 		union{null,string} sellerAccountId = null;

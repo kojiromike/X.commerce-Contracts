@@ -125,7 +125,7 @@ protocol PaidSearchAdvertisingCapability {
 	 * Create an Advertiser Account
 	 */
 	@topic("/paidSearchAdvertising/advertiserAccount/create") 
-	@version("2.0.1") 
+	@version("2.0.2") 
 	record CreateAdvertiserAccount
 	{
 		AdvertiserAccount advertiserAccount;
@@ -135,7 +135,7 @@ protocol PaidSearchAdvertisingCapability {
 	 * Successful creation of an Advertiser Account
 	 */
 	@topic("/paidSearchAdvertising/advertiserAccount/created") 
-	@version("2.0.1") 
+	@version("2.0.2") 
 	record AdvertiserAccountCreated
 	{
 		AdvertiserAccount advertiserAccount;
@@ -145,7 +145,7 @@ protocol PaidSearchAdvertisingCapability {
 	 * Advertiser Account creation failed
 	 */
 	@topic("/paidSearchAdvertising/advertiserAccount/createFailed") 
-	@version("2.0.1") 
+	@version("2.0.2") 
 	record CreateAdvertiserAccountFailed
 	{
 		AdvertiserAccount advertiserAccount;

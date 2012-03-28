@@ -125,31 +125,31 @@ protocol LoyaltyMarketing {
 	}
 	
 	@topic("/loyalty/customer/create")
-	@version("0.0.3")
+	@version("0.0.4")
 	record CreateCustomer {
 		array<Customer> customers;
 	}
 	
 	@topic("/loyalty/customer/created")
-	@version("0.0.3")
+	@version("0.0.4")
 	record CustomerCreated {
 		array<Customer> customers;
 	}
 	
 	@topic("/loyalty/customer/createFailed")
-	@version("0.0.3")
+	@version("0.0.4")
 	record CreateCustomerFailed {
 		array<LoyaltyCustomerError> errors;
 	}
 	
 	@topic("/loyalty/customer/search")
-	@version("0.0.3")
+	@version("0.0.4")
 	record SearchCustomer {
 		com.x.ocl.Query query;
 	}
 	
 	@topic("/loyalty/customer/searchSucceeded")
-	@version("0.0.3")
+	@version("0.0.4")
 	record SearchCustomerSucceeded {
 		com.x.ocl.Query query;
 		array<Customer> customers;
@@ -163,19 +163,19 @@ protocol LoyaltyMarketing {
 	}
 
 	@topic("/loyalty/customer/update")
-	@version("0.0.3")
+	@version("0.0.4")
 	record UpdateCustomer {
 		array<Customer> customers;
 	}
 	
 	@topic("/loyalty/customer/updated")
-	@version("0.0.3")
+	@version("0.0.4")
 	record CustomerUpdated {
 		array<Customer> customers;
 	}
 	
 	@topic("/loyalty/customer/updateFailed")
-	@version("0.0.3")
+	@version("0.0.4")
 	record UpdateCustomerFailed {
 		array<LoyaltyCustomerError> errors;
 	}

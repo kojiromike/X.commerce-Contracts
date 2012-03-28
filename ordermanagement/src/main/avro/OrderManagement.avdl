@@ -31,14 +31,14 @@ protocol OrderManagement {
 	 * through a UI channel.
 	 */
 	@topic("/order/create")
-	@version("2.0.0")
+	@version("3.0.0")
 	record CreateOrder {
 		com.x.ocl.Order order;
 		union{null,string} accountId = null;
 	}
 	
 	@topic("/order/created")
-	@version("2.0.0")
+	@version("3.0.0")
 	record OrderCreated {
 		com.x.ocl.Order order;
 		union{null,string} accountId = null;
@@ -46,7 +46,7 @@ protocol OrderManagement {
 	}
 	
 	@topic("/order/createFailed")
-	@version("2.0.0")
+	@version("3.0.0")
 	record CreateOrderFailed {
 		com.x.ocl.Order order;
 		union{null,string} accountId = null;
@@ -54,13 +54,13 @@ protocol OrderManagement {
 	}
 			
 	@topic("/order/update")
-	@version("2.0.0")
+	@version("3.0.0")
 	record UpdateOrder {
 		com.x.ocl.Order order;
 	}
 	
 	@topic("/order/updated")
-	@version("2.0.0")
+	@version("3.0.0")
 	record OrderUpdated {
 		com.x.ocl.Order order;
         union{null,string} accountId = null;
@@ -68,7 +68,7 @@ protocol OrderManagement {
 	}
 	
 	@topic("/order/updateFailed")
-	@version("2.0.0")
+	@version("3.0.0")
 	record UpdateOrderFailed {
 		com.x.ocl.Order order;
 		array<com.x.ocl.Error> errors;
@@ -81,7 +81,7 @@ protocol OrderManagement {
 	}
 	
 	@topic("/order/cancelled")
-	@version("2.0.0")
+	@version("3.0.0")
 	record OrderCancelled {
 		com.x.ocl.Order order;
 	}
@@ -100,7 +100,7 @@ protocol OrderManagement {
 	}
 
 	@topic("/order/searchSucceeded")
-	@version("2.0.0")
+	@version("3.0.0")
 	record SearchOrdersSucceeded {
 		array<com.x.ocl.Order> @paginated("true") orders;
 		union{null,com.x.ocl.Query} query = null;
@@ -114,7 +114,7 @@ protocol OrderManagement {
 	}
 
 	@topic("/order/shipment/shipped")
-	@version("2.0.0")
+	@version("3.0.0")
 	record OrderShipmentShipped {
 		union{null,string} accountId = null;
 		string orderNumber;
@@ -126,7 +126,7 @@ protocol OrderManagement {
 
 	/** An Order Management capability will be listening for this event. */
 	@topic("/order/payment/captured")
-	@version("1.0.0")
+	@version("2.0.0")
 	record OrderPaymentCaptured {
 		string orderNumber;
 		com.x.ocl.OrderPaymentInfo paymentInfo;	

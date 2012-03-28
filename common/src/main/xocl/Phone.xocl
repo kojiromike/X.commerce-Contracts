@@ -1,6 +1,5 @@
-@namespace("com.x.ocl")
-
-protocol Common {
+	
+package com.x.xocl.common.phone.v1{
 	enum PhoneType {
 		HOME,
 		MOBILE,
@@ -10,7 +9,7 @@ protocol Common {
 	}
 
 	record Phone {
-		string number;
-		PhoneType type;
+		string number
+		PhoneType type
 	}
 }

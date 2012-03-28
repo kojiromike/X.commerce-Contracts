@@ -1,0 +1,10 @@
+	
+package com.x.xocl.common.name.v1{
+	record Name {
+		string? prefix
+		string firstName
+		string? middleName
+		string lastName
+		string? suffix
+	}
+}
