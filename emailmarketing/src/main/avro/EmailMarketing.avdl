@@ -8,6 +8,7 @@
  * Extension points will be introduced in this common schema as appropriate.  
  * 
  */
+@status("Working Draft")
 protocol EmailMarketing {
 
 	import idl "Error.avdl";

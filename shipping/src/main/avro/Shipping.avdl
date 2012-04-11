@@ -4,6 +4,7 @@
 	The shipping protocol defines the schema for all messages
 	that are part of the shipping domain.
 */
+@status("Working Draft")
 protocol Shipping {
 	import idl "CurrencyAmount.avdl";
 	import idl "Name.avdl";

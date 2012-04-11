@@ -4,6 +4,7 @@
  * The order management protocol defines the schema for all
  * the messages that are part of the order management domain.
  */
+@status("Working Draft")
 protocol OrderManagement {
 	import idl "CurrencyAmount.avdl";
 	import idl "DateRange.avdl";

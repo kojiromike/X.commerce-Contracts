@@ -6,6 +6,7 @@
  *
  */
 @namespace("com.x.payment.v0")
+@status("Working Draft")
 protocol Payments {  
 
   /**  interaction type - front end */

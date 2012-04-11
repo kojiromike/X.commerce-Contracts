@@ -9,6 +9,7 @@
  * The messages based on channel specific schema can be embedded in 
  * specific "extension" points defined in this schema.
  */
+@status("Working Draft")
 protocol SalesChannel {
 
 	import idl "CurrencyAmount.avdl";
@@ -150,7 +151,7 @@ protocol SalesChannel {
 	}
 
 	record CancelOfferError {
-		string sku;
+		string channelAssignedOfferId;
 		array<com.x.ocl.Error> errors;
 	}
 
@@ -469,21 +470,21 @@ protocol SalesChannel {
 	}
 
 	@topic("/salesChannel/offer/cancel")
-	@version("2.0.0")
+	@version("2.0.1")
 	record CancelOffer {
-		array<string> skus;
+		array<string> channelAssignedOfferIds;
 		union{null,string} policyGroupId = null;
 	}
 
 	@topic("/salesChannel/offer/cancelled")
-	@version("2.0.0")
+	@version("2.0.1")
 	record OfferCancelled {
-		array<string> skus;
+		array<string> channelAssignedOfferIds;
 		union{null,string} policyGroupId = null;
 	}
 
 	@topic("/salesChannel/offer/cancelFailed")
-	@version("2.0.0")
+	@version("2.0.1")
 	record CancelOfferFailed {
 		array<CancelOfferError> errors;
 		union{null,string} policyGroupId = null;

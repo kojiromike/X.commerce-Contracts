@@ -93,7 +93,7 @@ def process_protocol(protocol_file_name)
 
   http = Net::HTTP.new('api.x.com', 443)
   http.use_ssl = true
-#  http = Net::HTTP.new('localhost', 3010)
+#  http = Net::HTTP.new('localhost', 3000)
   
   protocol.types.each do |type|
     if type.class == Avro::Schema::RecordSchema && type.props['version']
@@ -101,26 +101,33 @@ def process_protocol(protocol_file_name)
       
       written = Set.new
       
-      print "publishing #{type.name}... "
+      print "publishing #{type.props['topic']} (#{type.name}) #{type.props['version']}... "
  
       namespace = type.namespace ? type.namespace : protocol.namespace
 
       write_type(buf, type, '', written, namespace)
       
       buf.rewind
+
+      body = buf.read
+      
+      ["\n","\r","\t","\b"].each do |replace|
+        body = body.gsub(replace, Regexp.escape(replace))
+      end
       
 #      out = File.open(namespace + '.' + type.name + '.avsc', 'w')
-#      out.print buf.read
+#      out.print body
 #      out.close
       
       path = "/ocl/#{namespace}/#{type.name}/#{type.props['version']}"
       if type.props['topic']
         path += "?topic=#{type.props['topic'][1..-1]}&namespace=#{namespace}"
       end
-      
+
       req = Net::HTTP::Post.new(path)
       req.basic_auth ARGV[0], ARGV[1]
-      req.body = buf.read
+      
+      req.body = body
       resp, data = http.request req
       puts "done: #{resp.code} #{resp.code_type} #{data}"
     end

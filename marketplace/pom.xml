@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.x.ocl</groupId>
 		<artifactId>ontology</artifactId>
-		<version>0.0.10-SNAPSHOT</version>
+		<version>0.0.11-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>com.x.ocl</groupId>
@@ -60,6 +60,9 @@
 		<resources>
 			<resource>
 				<directory>src/main/avro</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
 		<plugins>

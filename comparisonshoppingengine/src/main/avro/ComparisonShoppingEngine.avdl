@@ -4,6 +4,7 @@
 	The comparison shopping engine (CSE) protocol defines the schema for all
 	the messages that are part of the CSE domain.
 */
+@status("Working Draft")
 protocol ComparisonShoppingEngine {
 	import idl "Error.avdl";
 	import idl "Offer.avdl";
@@ -205,15 +206,15 @@ protocol ComparisonShoppingEngine {
 	}
 	
 	@extends("com.x.ocl.Offer")
-	@version("2.0.0")
+	@version("3.0.0")
 	record CseOffer {
    		string title;
    		string description;
-   		string manufacturer;
-   		union{null, string} mpn;
-   		union{null, string} gtin;
-   		string brand;
-   		string category;
+   		union{null, string} manufacturer = null;
+   		union{null, string} mpn = null;
+   		union{null, string} gtin = null;
+   		union{null, string} brand = null;
+   		union{null, string} category = null;
    		union{null, string} xProductTypeId = null;  // Product type id as defined by the taxonomy manager.
    		union{null, array<string>} productTypes;
    		array<ProductImage> images;
@@ -225,36 +226,38 @@ protocol ComparisonShoppingEngine {
    		union{null, double} shippingWeight;
    		array<ProductAttribute> attributes;
    		union{null, array<Variation>} variations;
-   		union{null, string} offerId;
+   		union{null, string} offerId = null;
    		union{null, com.x.ocl.CurrencyAmount} cpc;
 	}
 	
 	@topic("/cse/offer/create")
-	@version("2.0.0")
+	@version("3.0.0")
 	record CreateOffer {
 		array<com.x.ocl.Offer> offers;
 		ProductFeedType feedType;
-		string xAccountId; 
-		string siteId;
+		union{null, string} xAccountId; 
+		union{null, string} siteId;
 		
 		/* the name that identifies the collection of offers */
-		union{null, string} offerName;
+		union{null, string} offerName = null;
 	}
 	
 	@topic("/cse/offer/created")
-	@version("1.0.0")
+	@version("2.0.0")
 	record OfferCreated {
 		array<com.x.ocl.Offer> offers;
-		string xAccountId; 
-		string siteId;
+		union{null, string} xAccountId; 
+		union{null, string} siteId;
+		union{null, string} offerName;
 	}
 
 	@topic("/cse/offer/createFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record CreateOfferFailed {
 		array<com.x.ocl.Error> errors;
-		string xAccountId; 
-		string siteId;
+		union{null, string} xAccountId; 
+		union{null, string} siteId;
+		union{null, string} offerName;
 	}
 }
 

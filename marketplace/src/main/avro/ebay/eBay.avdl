@@ -1,6 +1,5 @@
 @namespace("com.x.marketplace.ebay.v1")
-
-
+@status("Working Draft")
 protocol eBay {
 
 	import idl "../Marketplace.avdl";

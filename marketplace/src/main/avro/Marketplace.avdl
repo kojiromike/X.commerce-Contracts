@@ -10,6 +10,7 @@
 	The extension point in this schema is defined in a "marketSpecific"
 	element of certain types.
 */
+@status("Working Draft")
 protocol Marketplace {
 	/*
 		This record is used to return market specific data using the schema specified.

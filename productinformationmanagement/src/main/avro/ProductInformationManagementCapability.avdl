@@ -1,46 +1,52 @@
 @namespace("com.x.pim.v1")
- 
-protocol ProductInformationManagementCapability {
-    import idl "CurrencyAmount.avdl";
-    import idl "Error.avdl";
-    import idl "Query.avdl";
-    import idl "Locale.avdl";
-    
+@status("Working Draft")
+protocol ProductInformationManagementCapability
+{
+	import idl "com.x.core.v1.CurrencyAmount.avdl";
+	import idl "com.x.core.v1.Error.avdl";
+	import idl "com.x.core.v1.Query.avdl";
+	import idl "com.x.core.v1.Locale.avdl";
+	
     enum FilterType 
     {
         SUMMARY,
         FULL_DETAILS
     }
  
-    record LocalizedMeasurement {
-        union {null, com.x.ocl.Locale} locale = null;
-        string name;
-        string unit;
-        string value;
-    }
-    
-     record LocalizedNameValue {
-         union {null, com.x.ocl.Locale} locale = null;
-         string name;
-         string value;
-     }
-     
-     record LocalizedString {
-         union {null, com.x.ocl.Locale} locale = null;
-          string stringValue;
-     }
-     
+	record LocalizedMeasurement 
+	{
+		union {null, com.x.core.v1.Locale} locale = null;
+		string name;
+		string unit;
+		string value;
+	}
+	
+ 	record LocalizedNameValue 
+ 	{
+ 		union {null, com.x.core.v1.Locale} locale = null;
+ 		string name;
+ 		string value;
+ 	}
+ 	
+ 	record LocalizedString 
+ 	{
+ 		union {null, com.x.core.v1.Locale} locale = null;
+  		string stringValue;
+ 	}
+ 	
     record BooleanAttributeValue
     {
         boolean value;
         union {null, array<LocalizedString>} attributeName = null;
     }
  
-     record StringAttributeValue {
+     record StringAttributeValue 
+     {
          array<LocalizedNameValue> attributeNameValue;
      }
      
-     record MeasurementAttributeValue {
+     record MeasurementAttributeValue 
+     {
          array<LocalizedMeasurement> localizedMeasurementValue;
      }
      
@@ -62,19 +68,20 @@ protocol ProductInformationManagementCapability {
         union {null, StringAttributeValue} attributeValue = null;
     }
      
-    record CustomAttributeValue {
-         union {null, BooleanAttributeValue, StringAttributeValue, MeasurementAttributeValue} value = null;
+    record CustomAttributeValue 
+    {
+ 		union {null, BooleanAttributeValue, StringAttributeValue, MeasurementAttributeValue} value = null;
     }
      
     record ProductTypeAttributeValue
     {
-        // an attribute of a product type defined by producttaxonomy
+    	// an attribute of a product type defined by producttaxonomy
         union {ProductTypeStringAttributeValue, StringEnumerationAttributeValue, BooleanAttributeValue} value;
     }
  
     record ProductAttributeValue
     {
-        string attributeId;
+      	string attributeId;
         union {ProductTypeAttributeValue, CustomAttributeValue} attributeValue;
     }
   
@@ -94,26 +101,25 @@ protocol ProductInformationManagementCapability {
     //
     record SKU
     {
-        // unique identifier of the SKU
-        union {null, string} sku = null;
+        //unique identifier of the SKU
+        string sku;
         // ID of the product for this SKU 
         union {null, string} productId = null;
         // Manufacturer suggested retail price, override the field in Product
-        union {null, com.x.ocl.CurrencyAmount} MSRP = null;
+        union {null, com.x.core.v1.CurrencyAmount} MSRP = null;
         // Minimal advertisement price, override the field in Product
-        union {null, com.x.ocl.CurrencyAmount} MAP = null;
+        union {null, com.x.core.v1.CurrencyAmount} MAP = null;
         // variation attributes, the list must match the variationAttributeIds in Product 
         union {null, array<ProductAttributeValue>} variationAttributeValues = null;
         // SKU specific images 
         union {null, array<Image>} images = null;
+        
     }
 
-    //-------------------------------------------------------------------
-    // TODO: Set of ProductAttributeValues
     record Product 
     {
         // product id 
-        union {null, string} id = null;
+        string id;
         // ID of the product type 
         union {null, string} productTypeId = null;
         // descriptive name
@@ -127,9 +133,37 @@ protocol ProductInformationManagementCapability {
         union {null, array<LocalizedString>} manufacturer = null;
         union {null, string} MPN = null;
         // Manufacturer suggested retail price
-        union {null, com.x.ocl.CurrencyAmount} MSRP = null;
+        union {null, com.x.core.v1.CurrencyAmount} MSRP = null;
         // Minimal advertisement price
-        union {null, com.x.ocl.CurrencyAmount} MAP = null;
+        union {null, com.x.core.v1.CurrencyAmount} MAP = null;
+        // product images 
+        union {null, array<Image>} images = null;
+        // product attributes 
+        union {null, array<ProductAttributeValue>} attributes = null;
+        // defines the ids of variation variables 
+        union {null, array<string>} variationFactors = null;
+        // list of associated SKUs
+        union {null, array<SKU>} skuList = null;
+    }
+    
+    record ProductData 
+    {
+        // ID of the product type 
+        union {null, string} productTypeId = null;
+        // descriptive name
+        union {null, array<LocalizedString>} name = null;
+        // short description
+        union {null, array<LocalizedString>} shortDescription = null;
+        // full description
+        union {null, array<LocalizedString>} description = null;
+        union {null, string} GTIN = null;
+        union {null, array<LocalizedString>} brand = null;
+        union {null, array<LocalizedString>} manufacturer = null;
+        union {null, string} MPN = null;
+        // Manufacturer suggested retail price
+        union {null, com.x.core.v1.CurrencyAmount} MSRP = null;
+        // Minimal advertisement price
+        union {null, com.x.core.v1.CurrencyAmount} MAP = null;
         // product images 
         union {null, array<Image>} images = null;
         // product attributes 
@@ -140,228 +174,180 @@ protocol ProductInformationManagementCapability {
         union {null, array<SKU>} skuList = null;
     }
 
-    enum ProductIdType {
+    enum ProductIdType 
+    {
         PRODUCT_ID,
         SKU
     }
     
-    record ProductIdentifier {
+    record ProductIdentifier 
+    {
         string value;
         ProductIdType type;
     }
     
-
-    // Message definitions
-    //-------------------------------------------------------------------
     //
     // Create products
     //
-    @topic("/pim/product/create")
-    @version("2.0.0")
+    @topic("/com.x.pim.v1/ProductCreation/CreateProduct")
+    @version("1.0.0")
     record CreateProduct
     {
-        array<Product> products;
+        array<ProductData> products;
+    }
+     
+    @topic("/com.x.pim.v1/ProductCreation/CreateProductSucceeded")
+    @version("1.0.0")
+    record CreateProductSucceeded
+    {
+    	array<Product> products; //should now contain product IDs
     }
  
-    @topic("/pim/product/created")
-    @version("2.0.0")
+    @topic("/com.x.pim.v1/ProductCreation/CreateProductFailed")
+    @version("1.0.0")
+    record CreateProductFailed
+    {
+        array<ProductData> products;
+        array<com.x.core.v1.Error> errors;
+    }
+    
+    @topic("/com.x.pim.v1/ProductCreation/ProductCreated")
+    @version("1.0.0")
     record ProductCreated
     {
         array<Product> products;
     }
- 
-    @topic("/pim/product/createFailed")
-    @version("2.0.0")
-    record CreateProductFailed
-    {
-        array<Product> products;
-        array<com.x.ocl.Error> errors;
-    }
- 
+    
     //
-    // Create SKUs
+    // Get products
     //
-    @topic("/pim/sku/create")
-    @version("2.0.0")
-    record CreateSKU
-    {
-        array<SKU> skus;
-    }
- 
-    @topic("/pim/sku/created")
-    @version("2.0.0")
-    record SKUCreated
-    {
-        array<SKU> skus;
-    }
- 
-    @topic("/pim/sku/createFailed")
-    @version("2.0.0")
-    record CreateSKUFailed
-    {
-        array<SKU> skus;
-        array<com.x.ocl.Error> errors;
-    }
- 
-    //
-    // Get Products
-    //
-    @topic("/pim/product/get")
+    @topic("/com.x.pim.v1/ProductLookup/LookupProduct")
     @version("1.0.0")
-    record GetProduct
+    record LookupProduct
     {
         array<ProductIdentifier> ids;
         union {null, FilterType} filter = null; 
         // The locale en_US will be the default if no locale is supplied in 
         // the message.
-        union { null, array<com.x.ocl.Locale> } locales = null;
+        union { null, array<com.x.core.v1.Locale> } locales = null;
     }
  
-    @topic("/pim/product/getSucceeded")
-    @version("2.0.0")
-    record GetProductSucceeded
+	@topic("/com.x.pim.v1/ProductLookup/LookupProductSucceeded")
+    @version("1.0.0")
+    record LookupProductSucceeded
     {
         array<Product> products;
         union {null, FilterType} filter = null; 
         // The locale en_US will be the default if no locale is supplied in 
         // the message.
-        union { null, array<com.x.ocl.Locale> } locales = null;
+        union { null, array<com.x.core.v1.Locale> } locales = null;
     }
  
-    @topic("/pim/product/getFailed")
+	@topic("/com.x.pim.v1/ProductLookup/LookupProductFailed")
     @version("1.0.0")
-    record GetProductFailed
+    record LookupProductFailed
     {
         array<ProductIdentifier> ids;
         union {null, FilterType} filter = null; 
         // The locale en_US will be the default if no locale is supplied in 
         // the message.
-        union { null, array<com.x.ocl.Locale> } locales = null;
-        array<com.x.ocl.Error> errors;
+        union { null, array<com.x.core.v1.Locale> } locales = null;
+        array<com.x.core.v1.Error> errors;
     }
  
-    @topic("/pim/product/search")
-    @version("1.0.1")
+    @topic("/com.x.pim.v1/ProductSearch/SearchProduct")
+    @version("1.0.0")
     record SearchProduct
     {
-    
-        com.x.ocl.Query @queryType("com.x.pim.v1.Product") query;
+        com.x.core.v1.Query  @queryType("com.x.pim.v1.Product") query;
         // The locale en_US will be the default if no locale is supplied in 
         // the message.
-        union { null, array<com.x.ocl.Locale> } locales = null;
+        union { null, array<com.x.core.v1.Locale> } locales = null;
     }
  
-    @topic("/pim/product/searchSucceeded")
-    @version("2.0.0")
+    @topic("/com.x.pim.v1/ProductSearch/SearchProductSucceeded")
+    @version("1.0.0")
     record SearchProductSucceeded
     {
-        com.x.ocl.Query query;
+        com.x.core.v1.Query query;
         // The locale en_US will be the default if no locale is supplied in 
         // the message.
-        union { null, array<com.x.ocl.Locale> } locales = null;
+        union { null, array<com.x.core.v1.Locale> } locales = null;
         array<Product> products;
     }
  
-    @topic("/pim/product/searchFailed")
-    @version("1.0.1")
+    @topic("/com.x.pim.v1/ProductSearch/SearchProductFailed")
+    @version("1.0.0")
     record SearchProductFailed
     {
-        com.x.ocl.Query query;
+        com.x.core.v1.Query query;
         // The locale en_US will be the default if no locale is supplied in 
         // the message.
-        union { null, array<com.x.ocl.Locale> } locales = null;
-        array<com.x.ocl.Error> errors;
+        union { null, array<com.x.core.v1.Locale> } locales = null;
+        array<com.x.core.v1.Error> errors;
     }
  
-    // Update Product //
-    @topic("/pim/product/update")
-    @version("2.0.0")
+    //
+    // Update products
+    //
+    @topic("/com.x.pim.v1/ProductUpdate/UpdateProduct")
+    @version("1.0.0")
     record UpdateProduct
     {
         array<Product> products;
     }
- 
-    @topic("/pim/product/updated")
-    @version("2.0.0")
-    record ProductUpdated
+    
+    @topic("/com.x.pim.v1/ProductUpdate/UpdateProductSucceeded")
+    @version("1.0.0")
+    record UpdateProductSucceeded
     {
-        array<Product> products;
+   	    array<Product> products;
     }
  
-    @topic("/pim/product/updateFailed")
-    @version("2.0.0")
+    @topic("/com.x.pim.v1/ProductUpdate/UpdateProductFailed")
+    @version("1.0.0")
     record UpdateProductFailed
     {
         array<Product> products;
-        array<com.x.ocl.Error> errors;
+        array<com.x.core.v1.Error> errors;
     }
- 
-    // Update SKU 
-    @topic("/pim/sku/update")
-    @version("2.0.0")
-    record UpdateSKU
-    {
-        array<SKU> skus;
-    }
- 
-    @topic("/pim/sku/updated")
-    @version("2.0.0")
-    record SKUUpdated
-    {
-        array<SKU> skus;
-    }
- 
-    @topic("/pim/sku/updateFailed")
-    @version("2.0.0")
-    record UpdateSKUFailed
-    {
-        array<SKU> skus;
-        array<com.x.ocl.Error> errors;
-    }
- 
-    // Delete Product 
-    @topic("/pim/product/delete")
-    @version("2.0.0")
-    record DeleteProduct
+    
+    @topic("/com.x.pim.v1/ProductUpdate/ProductUpdated")
+    @version("1.0.0")   
+	record ProductUpdated
     {
         array<Product> products;
     }
+	
+	//
+    // Delete products
+    // 
+    @topic("/com.x.pim.v1/ProductDeletion/DeleteProduct")
+    @version("1.0.0")
+    record DeleteProduct
+    {
+        array<string> productIds;
+    }
  
-    @topic("/pim/product/deleted")
-    @version("2.0.0")
+    @topic("/com.x.pim.v1/ProductDeletion/DeleteProductSucceeded")
+    @version("1.0.0")
+    record DeleteProductSucceeded
+    {
+     	array<string> productIds;
+    }
+ 
+    @topic("/com.x.pim.v1/ProductDeletion/DeleteProductFailed")
+    @version("1.0.0")
+    record DeleteProductFailed
+    {
+        array<string> productIds;
+        array<com.x.core.v1.Error> errors;
+    }
+
+    @topic("/com.x.pim.v1/ProductDeletion/ProductDeleted")
+    @version("1.0.0")
     record ProductDeleted
     {
         array<Product> products;
-    }
- 
-    @topic("/pim/product/deleteFailed")
-    @version("2.0.0")
-    record DeleteProductFailed
-    {
-        array<Product> products;
-        array<com.x.ocl.Error> errors;
-    }
-
-    // Delete SKU 
-    @topic("/pim/sku/delete")
-    @version("2.0.0")
-    record DeleteSKU
-    {
-        array<SKU> skus;
-    }
- 
-    @topic("/pim/sku/deleted")
-    @version("2.0.0")
-    record SKUDeleted
-    {
-        array<SKU> skus;
-    }
- 
-    @topic("/pim/sku/deleteFailed")
-    @version("2.0.0")
-    record DeleteSKUFailed
-    {
-        array<SKU> skus;
-        array<com.x.ocl.Error> errors;
-    }
+    }    
 }

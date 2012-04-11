@@ -3,6 +3,7 @@
 /**
  * Message definitions for the paid search advertising
  */
+@status("Working Draft")
 protocol PaidSearchAdvertisingCapability {
 	import idl "Error.avdl";
 	import idl "Campaign.avdl";

@@ -1,0 +1,322 @@
+@namespace("com.x.incubator.advance.v1")
+
+/*
+	The advance protocol defines the schema that is common across
+	all capabilities offering capital advances. All adapters must implement the 
+	appropriate behavior for the interfaces defined here for its
+	offering.
+*/
+
+protocol Advance {
+	import idl "CurrencyAmount.avdl";
+	import idl "Address.avdl";
+	import idl "Phone.avdl";
+	import idl "Error.avdl";
+	import idl "Contact.avdl";
+
+	enum PaymentStatus {
+		Pending,
+		Complete,
+		Scheduled,
+		Failed,
+		PastDue
+	}
+
+	enum PaymentMethod {
+		Amex,
+		Diners,
+		Discover,
+		Mastercard,
+		Ach,
+		PayPal,
+		Visa
+	}
+	
+	enum BusinessStructure {
+		SOLE_PROPRIETORSHIP,
+		CORP_INC,
+		DBA,
+		GENERAL_PARTNERSHIP,
+		LLC,
+		PROFESSIONAL_CORPORATION
+	}
+
+	
+	record FundingDetail {
+		com.x.ocl.CurrencyAmount total;
+		com.x.ocl.CurrencyAmount available;
+		com.x.ocl.CurrencyAmount balance;
+		com.x.ocl.CurrencyAmount increment;
+	}
+
+	record Payment {
+		long scheduledDate;
+		long processedDate;                    // When the payment was actually processed
+		long submissionDate;                   
+		com.x.ocl.CurrencyAmount amount;
+		com.x.ocl.CurrencyAmount fee;
+		PaymentStatus status;
+		string message;				//used to elaborate on FAILED and PASTDUE
+	}
+	
+	record Segment {
+		string segmentNumber;                  //Need to verify 'segment' is an industry term           
+		FundingDetail fundingInfo;
+		array<Payment> payments;
+	}
+	
+	record SalesChannelVolume {
+		string salesChannel;			// code denoting the marketplace where the orders were placed.
+		com.x.ocl.CurrencyAmount amount;
+		long earliestOrderDate;
+		long latestOrderDate;
+	}
+
+	record AdvanceOfferPayment {
+		com.x.ocl.CurrencyAmount paymentAmount;
+		com.x.ocl.CurrencyAmount fees;
+		com.x.ocl.CurrencyAmount balance;
+	}
+	
+	record AdvanceOffer {
+		com.x.ocl.CurrencyAmount amount;
+		array<AdvanceOfferPayment> payments;
+		string advanceOfferDetailsURL;
+	}
+
+	
+	//###########################################################
+	//  THE SECTION BELOW CONTAINS THE SUPPORTED TOPICS/MESSAGES
+	//###########################################################
+
+	/*
+		This message carries the merchant's volume on marketplaces to establish a pre-approval amount.
+	*/
+	@topic("/incubator/advance/funding/prequalify")
+	@version("1.0.0")
+	record OrderVolume {
+		array<SalesChannelVolume> salesChannelVolumes;
+	}
+
+	/*
+		This message is published by the adapter. It carries a pre-approved amount based on business volume. 
+	*/
+	@topic("/incubator/advance/funding/prequalifySucceeded")
+	@version("1.0.0")
+	record PrequalifyAmount {
+		com.x.ocl.CurrencyAmount amount;
+	}
+
+	/*
+		This message is published by the adapter. 
+	*/
+	@topic("/incubator/advance/funding/prequalifyFailed")
+	@version("1.0.0")
+	record PrequalifyFailed {
+		array<com.x.ocl.Error> errors;
+	}
+
+	/*
+		This message is published by the extension. It requests either a specific segment on the account or 
+		all the segments associated with the merchant's account.
+	*/
+	@topic("/incubator/advance/funding/search")
+	@version("1.0.0")
+	record SearchFunding {
+		union {null, string} segment;     //null if all segments should be returned
+	}
+
+	/*
+		This message is published by the adapter. It publishes one or more advances resulting from a search.
+	*/
+	@topic("/incubator/advance/funding/searchSucceeded")
+	@version("1.0.0")
+	record SearchFundingSucceeded {
+		array<Segment> segments;
+	}
+	
+	/*
+		This message is published by the adapter. It indicates either an error was encountered or there were no advances found.
+	*/
+	@topic("/incubator/advance/funding/searchFailed")
+	@version("1.0.0")
+	record SearchFundingFailed {
+		array<com.x.ocl.Error> errors;
+	}
+	
+
+	/*
+	 * This section defines how a merchant will create a profile with the vendor. This profile will be used to evaluate the merchant's true volume and will result in 
+	 * either an offer of an advance or a decline.
+	 */
+
+
+	@topic("/incubator/advance/thirdparty/getLink")
+	@version("1.0.0")
+	record thirdPartyAuthorizationLink {
+		string thirdParty;
+	}
+
+	@topic("/incubator/advance/thirdparty/getLinkSucceeded")
+	@version("1.0.0")
+	record thirdPartyAuthorizationLinkSucceeded {
+		string thirdParty;
+		string uri;
+		string requestToken;
+	}
+
+	@topic("/incubator/advance/thirdparty/getLinkFailed")
+	@version("1.0.0")
+	record thirdPartyAuthorizationLinkFailed {
+		string thirdParty;
+		array<com.x.ocl.Error> errors;
+ 	}
+
+	/*
+		This message is published by the extension.
+	*/
+	@topic("/incubator/advance/businessProfile/create")
+	@version("1.0.0")
+	record BusinessDetail {
+		string name;
+		BusinessStructure structure;
+		string identificationNumber;
+		com.x.ocl.Address address;
+		com.x.ocl.Phone phone;
+	}
+	
+	/* 
+	 * After creating the business profile and processing business logic that verifies the business,
+	 * a success message is published no record needed, but on success this topic will be published.
+	 */
+	@topic("/incubator/advance/businessProfile/createSucceeded")
+	@version("1.0.0")
+	record CreateBusinessProfileSucceeded {
+	}
+	 
+	 
+	@topic("/incubator/advance/businessProfile/createFailed")
+	@version("1.0.0")
+	record CreateBusinessProfileFailed {
+		array<com.x.ocl.Error> errors;
+	}
+	
+	
+	@topic("/incubator/advance/personalProfile/create")
+	@version("1.0.0")
+	record PersonalDetail {
+		com.x.ocl.Contact contact;
+		long birthDate;                   //unix date
+		string identificationNumber;
+	}
+
+
+	/* 
+	 * After creating the business profile and processing business logic that verifies the business,
+	 * a success message is published no record needed, but on success this topic will be published.
+	 */
+	@topic("/incubator/advance/personalProfile/createSucceeded")
+	@version("1.0.0")
+	record CreatePersonalProfileSucceeded {
+	}
+	
+
+	@topic("/incubator/advance/personalProfile/createFailed")
+	@version("1.0.0")
+	record CreatePersonalProfileFailed {
+		array<com.x.ocl.Error> errors;
+	}
+	
+
+        /*
+         * The following records and topics are used after the profile is complete and allow the merchant to select an advance that fits their needs.
+	/*
+	
+
+	/*
+		This message is published by the adapter when the vendor is not able to offer the merchant an advance.
+	*/
+	@topic("/incubator/advance/advanceOffer/rejected")
+	@version("1.0.0")
+	record AdvanceOfferReject {
+		array<com.x.ocl.Error> errors;
+ 	}
+
+	/*
+		This message is published by the adapter. It carries a set of offers for the merchant to select from.
+	*/
+	@topic("/incubator/advance/advanceOffer/created")
+	@version("1.0.0")
+	record AvailableAdvanceOffers {
+		array<AdvanceOffer> advanceOffers;
+ 	}
+
+
+	/*
+		This message is published by the extension. 
+	*/
+	@topic("/incubator/advance/advanceOffer/accepted")
+	@version("1.0.0")
+	record AdvanceOfferAccept {
+		long agreementDate;
+		com.x.ocl.CurrencyAmount amount;   //the amount of the advance selected by the merchant. The offer selected is identified by this amount
+ 	}
+
+
+	/*
+		This message is published by the adapter. It indicates that the loan was funded.
+	*/
+	@topic("/incubator/advance/advanceOffer/funded")
+	@version("1.0.0")
+	record Advance {
+		string advanceNumber;
+		long fundingDate;
+		com.x.ocl.CurrencyAmount amount;        
+ 	}
+
+
+	/*
+		This message is published by the extension. It requests a new offer from the Advance company.
+	*/
+	@topic("/incubator/advance/advanceOffer/search")
+	@version("1.0.0") 
+	record GetAdvanceOffer {
+	}
+
+
+	/* 
+	 * These topics allow a merchant to make payments on a segment outside of the normally scheduled payments.
+	 */
+
+	/*
+	   This message is published by the extension when a merchant wants to make a payment outside 
+	   the regularly scheduled payments. If the payment fails the cause will be recorded in the AdvanceStatement
+	   with a code of 'FAILED' 
+	*/
+	@topic("/incubator/advance/payment/create")
+	@version("1.0.0")
+	record AdvancePayment {
+		string segmentNumber;          // identify the segment the payment will be applied to.
+		long paymentDate;	       // allow the merchant to schedule the payment for the future. Current day triggers an immediate payment
+		com.x.ocl.CurrencyAmount amount;         
+ 		PaymentMethod paymentMethod;   
+ 	}
+
+	@topic("/incubator/advance/payment/createSucceeded")
+	@version("1.0.0")
+	record AdvancePaymentSucceeded {
+		string segmentNumber;          // identify the segment the payment will be applied to.
+		long paymentDate;	       // allow the merchant to schedule the payment for the future. Current day triggers an immediate payment
+		com.x.ocl.CurrencyAmount amount;         
+ 	}
+
+	@topic("/incubator/advance/payment/createFailed")
+	@version("1.0.0")
+	record AdvancePaymentFailed {
+		string segmentNumber;          // identify the segment the payment will be applied to.
+		long paymentDate;	       // allow the merchant to schedule the payment for the future. Current day triggers an immediate payment
+		com.x.ocl.CurrencyAmount amount;
+		array<com.x.ocl.Error> errors;
+ 	}
+}
+

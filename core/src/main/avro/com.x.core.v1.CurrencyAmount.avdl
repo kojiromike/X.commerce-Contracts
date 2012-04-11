@@ -1,0 +1,13 @@
+@namespace("com.x.core.v1")
+
+protocol Core {
+
+	record CurrencyAmount {
+	
+	   /** Allowed characters are 0-9 and a single optional period (.) as the decimal point */  
+		string amount;
+		
+		/**  Three letter currency code/ISO 4217 */
+		string code;
+	}
+}

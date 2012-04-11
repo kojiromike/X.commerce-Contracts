@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.x.ocl</groupId>
 		<artifactId>ontology</artifactId>
-		<version>0.0.10-SNAPSHOT</version>
+		<version>0.0.11-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -52,6 +52,16 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>common-contract</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>advance-contract</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>consumerrating-contract</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -129,7 +139,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.1</version>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>

@@ -1,5 +1,5 @@
 @namespace("com.x.offermanagement.v1")
- 
+@status("Working Draft") 
 protocol OfferManagementCapability {
 	import idl "Error.avdl";
 	import idl "Query.avdl";

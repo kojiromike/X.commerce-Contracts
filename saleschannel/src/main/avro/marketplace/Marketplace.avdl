@@ -1,5 +1,5 @@
 @namespace("com.x.marketplace.v2")
-
+@status("Working Draft")
 protocol Marketplace {
 	import idl "../SalesChannel.avdl";
 	import idl "../Order.avdl";
@@ -284,7 +284,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/order/searchSucceeded")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchMarketplaceOrderSucceeded {
 		array<com.x.ocl.Order> orders;
 		SearchMarketplaceOrder searchMarketplaceOrder;

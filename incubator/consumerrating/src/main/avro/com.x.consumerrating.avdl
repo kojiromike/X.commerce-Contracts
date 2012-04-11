@@ -1,0 +1,41 @@
+/**
+* Avro protocol definitions for Consumer Rating.
+ *
+*/
+@namespace("com.x.consumerrating.v1")
+protocol ConsumerRating 
+{
+	import idl "Error.avdl";
+
+	/**  Message sent to lookup consumer score */
+	@topic("/com.x.xocl.consumerrating.v1/ConsumerScoreLookup/LookupConsumerScore") 
+	@version("1.0.0")
+	record LookupConsumerScore 
+	{
+		/**  Session id unique for shopper */
+		string sessionId;
+	}
+	  
+	/**  Message sent to indicate that lookup consumer score succeeded */
+	@topic("/com.x.xocl.consumerrating.v1/ConsumerScoreLookup/LookupConsumerScoreSucceeded")
+	@version("1.0.0")
+	record LookupConsumerScoreSucceeded 
+	{
+	    /**  Session id unique for shopper  */
+	    string sessionId;
+	
+	    /**  Consumer rating score */
+	    string consumerScore;
+	}
+
+	/**  Message sent to indicate that lookup consumer score failed */
+	@topic("/com.x.xocl.consumerrating.v1/ConsumerScoreLookup/LookupConsumerScoreFailed")
+	@version("1.0.0")
+	record LookupConsumerScoreFailed 
+	{
+	    /**  Session id unique for shopper  */
+	    string sessionId;
+	
+	    array<com.x.ocl.Error> errors;
+	}
+}

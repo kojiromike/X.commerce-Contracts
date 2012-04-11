@@ -3,6 +3,7 @@
 /**
 		The customer protocol defines the schema for all messages that are part of the customer domain.
 */
+@status("Working Draft")
 protocol Customer {
 	import idl "Name.avdl";
 	import idl "Error.avdl";

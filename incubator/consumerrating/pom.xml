@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.x.ocl</groupId>
+		<artifactId>incubator</artifactId>
+		<version>0.0.11-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<groupId>com.x.ocl</groupId>
+	<artifactId>consumerrating-contract</artifactId>
+	<name>Consumer Rating</name>
+	<description>
+		This artifact contains the consumer rating contract.
+	</description>
+	<scm>
+		<connection>scm:svn:https://svn.corp.x.com:8080/svn/x/Ontology/trunk/incubator/consumerrating</connection>
+	</scm>
+
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+			<id>xcommerce</id>
+			<name>x.commerce</name>
+			<url>http://maven.corp.x.com:8080/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>ontologydeploy</id>
+			<name>Consumer Rating release repository</name>
+			<url>http://maven.corp.x.com:8080/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>ontologydeploy</id>
+			<name>Consumer Rating snapshot repository</name>
+			<url>http://maven.corp.x.com:8080/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>core-contract</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>common-contract</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/avro</directory>
+			</resource>
+		    <resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeGroupIds>com.x.ocl</includeGroupIds>
+							<excludeTransitive>true</excludeTransitive>
+							<includes>**\/*.avdl</includes>
+							<outputDirectory>src/main/avro</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<includes>
+						<!-- We only want to include the classes generated from the com.x.consumerrating.avdl -->
+						<include>**/consumerrating/**/*</include>
+						<include>com.x.consumerrating.avdl</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>${avro.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>protocol</goal>
+							<goal>idl-protocol</goal>
+							<goal>schema</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

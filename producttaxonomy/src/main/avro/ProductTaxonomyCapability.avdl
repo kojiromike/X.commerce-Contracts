@@ -4,6 +4,7 @@
  * contracts for the product taxonomy service
  * ================================
  */
+@status("Working Draft")
 protocol ProductTaxonomyCapability {
 
 	/**

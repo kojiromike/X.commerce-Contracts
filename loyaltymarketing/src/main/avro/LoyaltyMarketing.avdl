@@ -1,5 +1,5 @@
 @namespace("com.x.loyalty.v1")
- 
+@status("Working Draft")
 protocol LoyaltyMarketing {
 	import idl "Error.avdl";
 	import idl "EmbeddedObject.avdl";
