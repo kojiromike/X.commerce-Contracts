@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.x.ocl</groupId>
 	<artifactId>ontology</artifactId>
-	<version>0.0.11-SNAPSHOT</version>
+	<version>0.0.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Ontology</name>
 	<scm>
@@ -55,7 +55,6 @@
 		<module>inventory</module>
 		<module>loyaltymarketing</module>
 		<module>marketplace</module>
-		<module>metamodel</module>
 		<module>offermanagement</module>
 		<module>ordermanagement</module>
 		<module>paidsearchadvertising</module>
@@ -121,11 +120,6 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>marketplace-contract</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>metamodel</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

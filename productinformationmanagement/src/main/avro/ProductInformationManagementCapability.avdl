@@ -85,15 +85,21 @@ protocol ProductInformationManagementCapability
         union {ProductTypeAttributeValue, CustomAttributeValue} attributeValue;
     }
   
+    enum ImageTag{
+    	THUMBNAIL
+    }
+  
+  
     record Image
     {
-        string url;
+    string url;
     // height in pixel
     union {null, int} height = null;
     // width in pixel
     union {null, int} width = null;
     union {null, LocalizedString} label = null;
     union {null, LocalizedString} altText = null;
+    union {null, array<ImageTag>} tags = null;
     }
 
     //
@@ -104,7 +110,7 @@ protocol ProductInformationManagementCapability
         //unique identifier of the SKU
         string sku;
         // ID of the product for this SKU 
-        union {null, string} productId = null;
+        union{null, string} productId;
         // Manufacturer suggested retail price, override the field in Product
         union {null, com.x.core.v1.CurrencyAmount} MSRP = null;
         // Minimal advertisement price, override the field in Product
@@ -115,6 +121,7 @@ protocol ProductInformationManagementCapability
         union {null, array<Image>} images = null;
         
     }
+    
 
     record Product 
     {
@@ -190,21 +197,21 @@ protocol ProductInformationManagementCapability
     // Create products
     //
     @topic("/com.x.pim.v1/ProductCreation/CreateProduct")
-    @version("1.0.0")
+    @version("1.1.0")
     record CreateProduct
     {
         array<ProductData> products;
     }
      
     @topic("/com.x.pim.v1/ProductCreation/CreateProductSucceeded")
-    @version("1.0.0")
+    @version("1.1.0")
     record CreateProductSucceeded
     {
     	array<Product> products; //should now contain product IDs
     }
  
     @topic("/com.x.pim.v1/ProductCreation/CreateProductFailed")
-    @version("1.0.0")
+    @version("1.1.0")
     record CreateProductFailed
     {
         array<ProductData> products;
@@ -212,7 +219,7 @@ protocol ProductInformationManagementCapability
     }
     
     @topic("/com.x.pim.v1/ProductCreation/ProductCreated")
-    @version("1.0.0")
+    @version("1.1.0")
     record ProductCreated
     {
         array<Product> products;
@@ -222,7 +229,7 @@ protocol ProductInformationManagementCapability
     // Get products
     //
     @topic("/com.x.pim.v1/ProductLookup/LookupProduct")
-    @version("1.0.0")
+    @version("1.1.0")
     record LookupProduct
     {
         array<ProductIdentifier> ids;
@@ -233,7 +240,7 @@ protocol ProductInformationManagementCapability
     }
  
 	@topic("/com.x.pim.v1/ProductLookup/LookupProductSucceeded")
-    @version("1.0.0")
+    @version("1.1.0")
     record LookupProductSucceeded
     {
         array<Product> products;
@@ -244,7 +251,7 @@ protocol ProductInformationManagementCapability
     }
  
 	@topic("/com.x.pim.v1/ProductLookup/LookupProductFailed")
-    @version("1.0.0")
+    @version("1.1.0")
     record LookupProductFailed
     {
         array<ProductIdentifier> ids;
@@ -256,7 +263,7 @@ protocol ProductInformationManagementCapability
     }
  
     @topic("/com.x.pim.v1/ProductSearch/SearchProduct")
-    @version("1.0.0")
+    @version("1.1.0")
     record SearchProduct
     {
         com.x.core.v1.Query  @queryType("com.x.pim.v1.Product") query;
@@ -266,7 +273,7 @@ protocol ProductInformationManagementCapability
     }
  
     @topic("/com.x.pim.v1/ProductSearch/SearchProductSucceeded")
-    @version("1.0.0")
+    @version("1.1.0")
     record SearchProductSucceeded
     {
         com.x.core.v1.Query query;
@@ -277,7 +284,7 @@ protocol ProductInformationManagementCapability
     }
  
     @topic("/com.x.pim.v1/ProductSearch/SearchProductFailed")
-    @version("1.0.0")
+    @version("1.1.0")
     record SearchProductFailed
     {
         com.x.core.v1.Query query;
@@ -291,21 +298,21 @@ protocol ProductInformationManagementCapability
     // Update products
     //
     @topic("/com.x.pim.v1/ProductUpdate/UpdateProduct")
-    @version("1.0.0")
+    @version("1.1.0")
     record UpdateProduct
     {
         array<Product> products;
     }
     
     @topic("/com.x.pim.v1/ProductUpdate/UpdateProductSucceeded")
-    @version("1.0.0")
+    @version("1.1.0")
     record UpdateProductSucceeded
     {
    	    array<Product> products;
     }
  
     @topic("/com.x.pim.v1/ProductUpdate/UpdateProductFailed")
-    @version("1.0.0")
+    @version("1.1.0")
     record UpdateProductFailed
     {
         array<Product> products;
@@ -313,7 +320,7 @@ protocol ProductInformationManagementCapability
     }
     
     @topic("/com.x.pim.v1/ProductUpdate/ProductUpdated")
-    @version("1.0.0")   
+    @version("1.1.0")   
 	record ProductUpdated
     {
         array<Product> products;
@@ -323,21 +330,21 @@ protocol ProductInformationManagementCapability
     // Delete products
     // 
     @topic("/com.x.pim.v1/ProductDeletion/DeleteProduct")
-    @version("1.0.0")
+    @version("1.1.0")
     record DeleteProduct
     {
         array<string> productIds;
     }
  
     @topic("/com.x.pim.v1/ProductDeletion/DeleteProductSucceeded")
-    @version("1.0.0")
+    @version("1.1.0")
     record DeleteProductSucceeded
     {
      	array<string> productIds;
     }
  
     @topic("/com.x.pim.v1/ProductDeletion/DeleteProductFailed")
-    @version("1.0.0")
+    @version("1.1.0")
     record DeleteProductFailed
     {
         array<string> productIds;
@@ -345,9 +352,76 @@ protocol ProductInformationManagementCapability
     }
 
     @topic("/com.x.pim.v1/ProductDeletion/ProductDeleted")
-    @version("1.0.0")
+    @version("1.1.0")
     record ProductDeleted
     {
         array<Product> products;
-    }    
+    }
+    
+    @topic("/com.x.pim.v1/ProductUpdate/CreateSKU")
+    @version("1.1.0")
+    record CreateSKU
+    {
+        array<SKU> sku;
+    }
+    
+    @topic("/com.x.pim.v1/ProductUpdate/CreateSKUFailed")
+    @version("1.1.0")
+    record CreateSKUFailed
+    {
+        array<SKU> skus;
+        array<com.x.core.v1.Error> errors;
+    }
+    
+    @topic("/com.x.pim.v1/ProductUpdate/CreateSKUSucceeded")
+    @version("1.1.0")
+    record CreateSKUSucceeded
+    {
+        array<SKU> sku;
+    }
+        
+    @topic("/com.x.pim.v1/ProductUpdate/UpdateSKU")
+    @version("1.1.0")
+    record UpdateSKU
+    {
+        array<SKU> skus;
+    }
+    
+    @topic("/com.x.pim.v1/ProductUpdate/UpdateSKUSucceeded")
+    @version("1.1.0")
+    record UpdateSKUSucceeded
+    {
+        array<SKU> skus;
+    }
+    
+    @topic("/com.x.pim.v1/ProductUpdate/UpdateSKUFailed")
+    @version("1.1.0")
+    record UpdateSKUFailed
+    {
+        array<SKU> skus;
+        array<com.x.core.v1.Error> errors;
+    }	
+    
+    @topic("/com.x.pim.v1/ProductUpdate/DeleteSKU")
+    @version("1.1.0")
+    record DeleteSKU
+    {
+        array<string> skus;
+    }
+        
+    @topic("/com.x.pim.v1/ProductUpdate/DeleteSKUSucceeded")
+    @version("1.1.0")
+    record DeleteSKUSucceeded
+    {
+    	array<string> skus;
+    }
+
+    @topic("/com.x.pim.v1/ProductUpdate/DeleteSKUFailed")
+    @version("1.1.0")
+    record DeleteSKUFailed
+    {
+        array<string> skus;
+        array<com.x.core.v1.Error> errors;
+    }
+        
 }

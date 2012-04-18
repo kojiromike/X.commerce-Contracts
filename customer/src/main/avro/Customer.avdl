@@ -25,28 +25,28 @@ protocol Customer {
 		COLD
 	}
 
-
+	@security("Confidential")
 	record ShippingContact{
-		com.x.ocl.Name fullName;
-		com.x.ocl.Address address;
-		union {null, com.x.ocl.Phone} phone = null;
+		com.x.ocl.Name @security("Confidential") fullName;
+		com.x.ocl.Address @security("Confidential") address;
+		union {null, com.x.ocl.Phone} @security("Confidential") phone = null;
 	}
 	
-	
+	@security("Confidential")
 	record Customer {
 	    
 	    /** null on create in the system of record, not null after created */
 		union{null, string} customerId = null; 
 	
-		com.x.ocl.Name fullName;	   
+		com.x.ocl.Name @security("Confidential") fullName;	   
 	    
-	    union {null, com.x.ocl.Address} billingAddress = null;
+	    union {null, com.x.ocl.Address} @security("Confidential") billingAddress = null;
 		
-		union {null, com.x.ocl.Phone} primaryPhone = null;
+		union {null, com.x.ocl.Phone} @security("Confidential") primaryPhone = null;
 	    
-	    array<com.x.ocl.Phone> additionalPhones = null;
+	    array<com.x.ocl.Phone> @security("Confidential") additionalPhones = null;
 		
-		union {null, com.x.ocl.Email} emailAddress = null;   		
+		union {null, com.x.ocl.Email} @security("Confidential") emailAddress = null;   		
 		
 	    union {null, string} company;  
 		
@@ -66,14 +66,14 @@ protocol Customer {
 		union{null, string} lastActivityDate;
 			
 	    /** Date Time Format: ISO 8601 */
-		union{null, string} birthday = null;
+		union{null, string} @security("Confidential") birthday = null;
 		
 		CustomerStatus status; 
 	    
 	    /** map of source system to source Id. This is used for audit purposes, to indicate where the customer came from in the flow */
 	    union{null, map<string>} sourceIds;
 
-		array<ShippingContact> shippingContacts;
+		array<ShippingContact> @security("Confidential") shippingContacts;
 	}
 	
 	@topic("/customer/create")

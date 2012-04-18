@@ -40,6 +40,11 @@ protocol Advance {
 		LLC,
 		PROFESSIONAL_CORPORATION
 	}
+	
+	record BankAccountInformation {
+		string accountNumber;
+		string routingNumber;
+	}
 
 	
 	record FundingDetail {
@@ -47,6 +52,8 @@ protocol Advance {
 		com.x.ocl.CurrencyAmount available;
 		com.x.ocl.CurrencyAmount balance;
 		com.x.ocl.CurrencyAmount increment;
+		com.x.ocl.CurrencyAmount minimumDue;
+		long minimumDueDate;
 	}
 
 	record Payment {
@@ -60,7 +67,7 @@ protocol Advance {
 	}
 	
 	record Segment {
-		string segmentNumber;                  //Need to verify 'segment' is an industry term           
+		string segmentNumber;                   //Identifies the specific advance within the umbrella account      
 		FundingDetail fundingInfo;
 		array<Payment> payments;
 	}
@@ -84,11 +91,23 @@ protocol Advance {
 		string advanceOfferDetailsURL;
 	}
 
+	record Statement
+	{
+	  long statementDate;
+	  string statementTitle;
+	  string statementFormat; 
+	  union {string,bytes} statementData; 
+	}
 	
 	//###########################################################
 	//  THE SECTION BELOW CONTAINS THE SUPPORTED TOPICS/MESSAGES
 	//###########################################################
 
+	@topic("/incubator/advance/customerOnboard")
+	@version("1.0.0")
+	record CustomerOnboard {
+	}
+	
 	/*
 		This message carries the merchant's volume on marketplaces to establish a pre-approval amount.
 	*/
@@ -130,7 +149,7 @@ protocol Advance {
 		This message is published by the adapter. It publishes one or more advances resulting from a search.
 	*/
 	@topic("/incubator/advance/funding/searchSucceeded")
-	@version("1.0.0")
+	@version("1.2.0")
 	record SearchFundingSucceeded {
 		array<Segment> segments;
 	}
@@ -176,13 +195,14 @@ protocol Advance {
 		This message is published by the extension.
 	*/
 	@topic("/incubator/advance/businessProfile/create")
-	@version("1.0.0")
+	@version("1.1.0")
 	record BusinessDetail {
 		string name;
 		BusinessStructure structure;
 		string identificationNumber;
 		com.x.ocl.Address address;
 		com.x.ocl.Phone phone;
+		BankAccountInformation bankAccountInformation;
 	}
 	
 	/* 
@@ -283,7 +303,39 @@ protocol Advance {
 	record GetAdvanceOffer {
 	}
 
+	/* 
+	 * This topic provides account user data to Magento from the adapter. 
+	 */
+	@topic("/incubator/advance/thirdParty/userMetadata")
+	@version("1.0.0") 
+	record UserMetadataRecord {
+	  map <string> userDataMap;
+	}
 
+	
+	/* 
+	 * These topics allow a search for Statements related to a merchant's account 
+	 */
+	@topic("/incubator/advance/statements/search")
+	@version("1.0.0") 
+	record SearchStatements {
+	}
+
+
+	@topic("/incubator/advance/statements/searchSucceeded")
+	@version("1.0.0") 
+	record SearchStatementsSucceeded
+	{
+	  array<Statement> statements;
+	}	
+
+	
+	@topic("/incubator/advance/statements/searchFailed")
+	@version("1.0.0") 
+	record SearchStatementsFailed {
+	        array<com.x.ocl.Error> errors;
+    	}
+	
 	/* 
 	 * These topics allow a merchant to make payments on a segment outside of the normally scheduled payments.
 	 */
@@ -318,5 +370,7 @@ protocol Advance {
 		com.x.ocl.CurrencyAmount amount;
 		array<com.x.ocl.Error> errors;
  	}
+ 	
+ 	
 }
 

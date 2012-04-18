@@ -104,13 +104,13 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/environment/search")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchEnvironment {
 		string siteCode;
 	}
 
 	@topic("/marketplace/environment/searchSucceeded")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchEnvironmentSucceeded {
 		array<Environment> environments;
 		string marketplace;
@@ -118,7 +118,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/environment/searchFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchEnvironmentFailed {
 		string marketplace;
 		string siteCode;
@@ -126,7 +126,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/store/get")
-	@version("1.0.0")
+	@version("2.0.0")
 	record GetStore {
 		union{null, string} xAccountId = null;
 		union{null, string} userMarketplaceId = null;
@@ -135,7 +135,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/store/getSucceeded")
-	@version("1.0.0")
+	@version("2.0.0")
 	record GetStoreSucceeded {
 		MarketplaceStore store;
 		string userMarketplaceId;
@@ -145,7 +145,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/store/getFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record GetStoreFailed {
 		union{null, string} xAccountId = null;
 		union{null, string} userMarketplaceId = null;
@@ -156,14 +156,14 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/country/search")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchCountry {
 		string siteCode;
 		union{null, string} environmentName = null;
 	}
 
 	@topic("/marketplace/country/searchSucceeded")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchCountrySucceeded {
 		array<SupportedCountry> countries;
 		string marketplace;
@@ -172,7 +172,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/country/searchFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchCountryFailed {
 		string marketplace;
 		string siteCode;
@@ -181,43 +181,43 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/account/delete")
-	@version("1.0.0")
+	@version("2.0.0")
 	record DeleteAccount {
 		string xAccountId;
 	}
 
 	@topic("/marketplace/account/deleted")
-	@version("1.0.0")
+	@version("2.0.0")
 	record AccountDeleted {
 		string xAccountId;
 	}
 
 	@topic("/marketplace/account/deleteFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record DeleteAccountFailed {
 		string xAccountId;
 		array<com.x.ocl.Error> errors;
 	}
 
 	@topic("/marketplace/account/search")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchAccount {
 	}
 
 	@topic("/marketplace/account/searchSucceeded")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchAccountSucceeded {
 		array<MarketplaceAccount> accounts;
 	}
 
 	@topic("/marketplace/account/searchFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchAccountFailed {
 		array<com.x.ocl.Error> errors;
 	}
 
 	@topic("/marketplace/authorization/init")
-	@version("1.0.0")
+	@version("2.0.0")
 	record InitAuthorization {
 		//Only used if marketplace web-auth flow supports it
 		union{null, string} returnURL = null;
@@ -227,7 +227,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/authorization/pending")
-	@version("1.0.0")
+	@version("2.0.0")
 	record AuthorizationPending {
 		string redirectURL;
 		string authId; //A unique identifier for the authorization
@@ -239,7 +239,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/authorization/initFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record InitAuthorizationFailed {
 		//Only used if marketplace web-auth flow supports it
 		union{null, string} environmentName = null;
@@ -249,7 +249,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/authorization/userCompleted")
-	@version("1.0.0")
+	@version("2.0.0")
 	record AuthorizationUserCompleted {
 		string authId;
 		//any extra credentials needed to complete the process
@@ -257,7 +257,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/authorization/completed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record AuthorizationCompleted {
 		string authId;
 		string xAccountId;
@@ -266,7 +266,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/authorization/failed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record AuthorizationFailed {
 		union{null, string} authId = null;
 		//any extra credentials needed to complete the process
@@ -276,7 +276,7 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/order/search")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchMarketplaceOrder {
 		union{null,string} siteCode = null;
 		union{null,string} sellerAccountId = null;
@@ -291,14 +291,14 @@ protocol Marketplace {
 	}
 
 	@topic("/marketplace/order/searchFailed")
-	@version("1.0.0")
+	@version("2.0.0")
 	record SearchMarketplaceOrderFailed {
 		SearchMarketplaceOrder searchMarketplaceOrder;
 		array<com.x.ocl.Error> errors;
 	}
 	
 	@topic("/marketplace/order/notifyBacklog/check")
-	@version("1.0.0")
+	@version("2.0.0")
 	record CheckOrderNotifyBacklog {
 		union{null,string} siteCode = null;
 		union{null,string} sellerAccountId = null;

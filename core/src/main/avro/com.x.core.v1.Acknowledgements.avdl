@@ -1,0 +1,54 @@
+@namespace("com.x.core.v1")
+
+/*
+ * This set of record types is used to control transactions.
+ */
+
+protocol Core {
+    /*
+     * This enum defines the set of all well known reasons for cancelling a transaction. 
+     *   as well as a value indicating that the reason is not specified.
+     */
+    enum Reason {
+        NotSpecified, // The reason for cancellation is not specified.
+        ReceiptTimedOut, // The sender timed out waiting for MessageReceived.
+        ReceiptOutOfSequence, // The sender received MessageReceived unexpectedly.
+        ValidationTimedOut, // The sender timed out waiting for MessageValidated.
+        ValidationOutOfSequence, // The sender received MessageValidated unexpectedly.
+        ValidationError, // The sender was not able to validate the message.
+        ResponseTimedOut, // The sender timed out waiting for a response.
+        ResponseOutOfSequence, // The sender received a response unexpectedly.
+        MessageOutOfSequence // The sender received a message unexpectedly.
+    }
+    
+    /*
+     * This message is sent to cancel a transaction for one of the reasons listed above.
+     * The sender of this message must set the X-XC-RESULT-CORRELATION-ID header to the ID
+     *   of the message that started the transaction.
+     */
+    record TransactionCancelled {
+        Reason reason; // The reason for cancellation.
+    }
+    
+    /*
+     * The following message types are acknowledgements.
+     *   An acknowledgement must identify the message being acknowledged  
+     *     using the X-XC-RESULT-CORRELATION-ID header.
+     *   An acknowledgement must be routed to the sender of the message being acknowledged
+     *     using the X-XC-PUBLISHER-ID header.
+     */
+
+    /*
+     * This message type is used to acknowledge the receipt of a message.
+     * If it is received out of order, then the receiving capability must send a cancellation 
+     *   to abort the transaction, with the Reason set to ReceiptOutOfSequence.
+     */
+    record MessageReceived {}
+    
+    /*
+     * This message type is used to acknowledge the validation of a message.
+     * If it is received out of order, then the receiving capability must send a cancellation 
+     *   to abort the transaction, with the Reason set to ValidationOutOfSequence.
+     */
+    record MessageValidated {}
+}

@@ -16,7 +16,7 @@ protocol OfferManagementCapability {
 	}
 
 	@topic("/offer/create")
-	@version("1.0.0")
+	@version("1.1.0")
 	record CreateOffer
 	{
 		array<com.x.ocl.Offer> offers;
@@ -37,7 +37,7 @@ protocol OfferManagementCapability {
 	}
  
 	@topic("/offer/createFailed")
-	@version("1.0.0")
+	@version("1.1.0")
 	record CreateOfferFailed
 	{
 		array<OfferError> errors;
@@ -61,11 +61,10 @@ protocol OfferManagementCapability {
 	}
 
 	@topic("/offer/publishFailed")
-	@version("1.0.0")
+	@version("1.1.0")
 	record PublishOfferFailed
 	{
-		array<string> offerIds;
-		array<com.x.ocl.Error> errors;
+		array<OfferIdError> errors;
 	}
 
 	@topic("/offer/suspend")
@@ -83,11 +82,10 @@ protocol OfferManagementCapability {
 	}
 
 	@topic("/offer/suspendFailed")
-	@version("1.0.0")
+	@version("1.1.0")
 	record SuspendOfferFailed
 	{
-		array<string> offerIds;
-		array<com.x.ocl.Error> errors;
+		array<OfferIdError> errors;
 	}
  
 	@topic("/offer/search")
